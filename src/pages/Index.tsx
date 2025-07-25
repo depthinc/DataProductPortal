@@ -1,15 +1,16 @@
 import { useState } from 'react';
 import { AppLayout } from '@/components/layout/AppLayout';
 import { DataProductCard } from '@/components/DataProductCard';
-import { dataProducts } from '@/data/mock-data';
+import { useData } from '@/context/DataContext';
 import { Input } from "@/components/ui/input";
 import { Search } from "lucide-react";
 
 const Index = () => {
   const [activeDomain, setActiveDomain] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const { products } = useData();
 
-  const filteredProducts = dataProducts
+  const filteredProducts = products
     .filter(p => activeDomain ? p.domain === activeDomain : true)
     .filter(p => p.name.toLowerCase().includes(searchTerm.toLowerCase()) || p.description.toLowerCase().includes(searchTerm.toLowerCase()));
 

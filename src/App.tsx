@@ -11,6 +11,10 @@ import { AuthProvider } from "./hooks/useAuth";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { SidebarProvider } from "./components/ui/sidebar";
 import ProductDetailPage from "./pages/ProductDetail";
+import { DataProvider } from "./context/DataContext";
+import NewProductPage from "./pages/admin/NewProduct";
+import EditProductPage from "./pages/admin/EditProduct";
+import ProfilePage from "./pages/Profile";
 
 const queryClient = new QueryClient();
 
@@ -22,18 +26,23 @@ const App = () => (
       <div className="dark">
         <BrowserRouter>
           <AuthProvider>
-            <SidebarProvider>
-              <Routes>
-                <Route path="/login" element={<LoginPage />} />
-                <Route element={<ProtectedRoute />}>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/admin" element={<AdminPage />} />
-                  <Route path="/product/:id" element={<ProductDetailPage />} />
-                </Route>
-                {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </SidebarProvider>
+            <DataProvider>
+              <SidebarProvider>
+                <Routes>
+                  <Route path="/login" element={<LoginPage />} />
+                  <Route element={<ProtectedRoute />}>
+                    <Route path="/" element={<Index />} />
+                    <Route path="/admin" element={<AdminPage />} />
+                    <Route path="/admin/new" element={<NewProductPage />} />
+                    <Route path="/admin/edit/:id" element={<EditProductPage />} />
+                    <Route path="/product/:id" element={<ProductDetailPage />} />
+                    <Route path="/profile" element={<ProfilePage />} />
+                  </Route>
+                  {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </SidebarProvider>
+            </DataProvider>
           </AuthProvider>
         </BrowserRouter>
       </div>

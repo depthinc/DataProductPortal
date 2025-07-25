@@ -49,6 +49,11 @@ export function UserNav() {
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuGroup>
+          <Link to="/profile">
+            <DropdownMenuItem>
+              Profile
+            </DropdownMenuItem>
+          </Link>
           <Link to="/admin">
             <DropdownMenuItem>
               Admin Panel

@@ -1,16 +1,30 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { AppLayout } from '@/components/layout/AppLayout';
-import { dataProducts, getIconForLifecycle, getIconForType } from '@/data/mock-data';
+import { getIconForLifecycle, getIconForType } from '@/data/mock-data';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
 import NotFound from './NotFound';
+import { useData } from '@/context/DataContext';
+import { Button } from '@/components/ui/button';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const ProductDetailPage = () => {
   const [activeDomain, setActiveDomain] = useState<string | null>(null);
   const { id } = useParams<{ id: string }>();
-  const product = dataProducts.find(p => p.id === id);
+  const { getProductById, deleteProduct } = useData();
+  const product = id ? getProductById(id) : undefined;
 
   if (!product) {
     return <NotFound />;
@@ -70,8 +84,30 @@ const ProductDetailPage = () => {
 
           <aside className="space-y-6">
             <Card>
-              <CardHeader>
+              <CardHeader className="flex flex-row items-center justify-between">
                 <CardTitle>Details</CardTitle>
+                <div className="flex items-center gap-2">
+                  <Button variant="outline" size="sm" asChild>
+                    <Link to={`/admin/edit/${product.id}`}>Edit</Link>
+                  </Button>
+                  <AlertDialog>
+                    <AlertDialogTrigger asChild>
+                      <Button variant="destructive" size="sm">Delete</Button>
+                    </AlertDialogTrigger>
+                    <AlertDialogContent>
+                      <AlertDialogHeader>
+                        <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                        <AlertDialogDescription>
+                          This action cannot be undone. This will permanently delete the data product.
+                        </AlertDialogDescription>
+                      </AlertDialogHeader>
+                      <AlertDialogFooter>
+                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogAction onClick={() => deleteProduct(product.id)}>Delete</AlertDialogAction>
+                      </AlertDialogFooter>
+                    </AlertDialogContent>
+                  </AlertDialog>
+                </div>
               </CardHeader>
               <CardContent className="space-y-4 text-sm">
                 <div className="flex justify-between">
@@ -104,7 +140,7 @@ const ProductDetailPage = () => {
             <Card>
               <CardHeader>
                 <CardTitle>Tags</CardTitle>
-              </CardHeader>
+              </Header>
               <CardContent className="flex flex-wrap gap-2">
                 {product.tags.map(tag => <Badge key={tag} variant="secondary">{tag}</Badge>)}
               </CardContent>
