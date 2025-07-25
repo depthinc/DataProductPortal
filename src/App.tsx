@@ -10,6 +10,7 @@ import AdminPage from "./pages/Admin";
 import { AuthProvider } from "./hooks/useAuth";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import { SidebarProvider } from "./components/ui/sidebar";
+import ProductDetailPage from "./pages/ProductDetail";
 
 const queryClient = new QueryClient();
 
@@ -27,6 +28,7 @@ const App = () => (
                 <Route element={<ProtectedRoute />}>
                   <Route path="/" element={<Index />} />
                   <Route path="/admin" element={<AdminPage />} />
+                  <Route path="/product/:id" element={<ProductDetailPage />} />
                 </Route>
                 {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
                 <Route path="*" element={<NotFound />} />

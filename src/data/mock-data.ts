@@ -1,4 +1,4 @@
-import { BarChart, Database, FileText, Api } from 'lucide-react';
+import { BarChart, Database, FileText, GitBranch, ShieldCheck, ToyBrick } from 'lucide-react';
 
 export type DataProduct = {
   id: string;
@@ -12,6 +12,7 @@ export type DataProduct = {
   };
   lastUpdated: string;
   tags: string[];
+  lifecycle: 'Development' | 'Production' | 'Deprecated';
 };
 
 export const domains = ['Finance', 'Marketing', 'Sales', 'Engineering'];
@@ -26,6 +27,7 @@ export const dataProducts: DataProduct[] = [
     owner: { name: 'Alice Johnson', avatarUrl: 'https://i.pravatar.cc/150?u=alice' },
     lastUpdated: '2023-10-05',
     tags: ['quarterly', 'finance', 'kpi'],
+    lifecycle: 'Production',
   },
   {
     id: 'dp002',
@@ -36,6 +38,7 @@ export const dataProducts: DataProduct[] = [
     owner: { name: 'Bob Williams', avatarUrl: 'https://i.pravatar.cc/150?u=bob' },
     lastUpdated: '2023-11-12',
     tags: ['customers', 'segmentation', 'analytics'],
+    lifecycle: 'Production',
   },
   {
     id: 'dp003',
@@ -46,6 +49,7 @@ export const dataProducts: DataProduct[] = [
     owner: { name: 'Charlie Brown', avatarUrl: 'https://i.pravatar.cc/150?u=charlie' },
     lastUpdated: '2023-11-20',
     tags: ['sales', 'pipeline', 'real-time'],
+    lifecycle: 'Production',
   },
   {
     id: 'dp004',
@@ -56,6 +60,7 @@ export const dataProducts: DataProduct[] = [
     owner: { name: 'Diana Prince', avatarUrl: 'https://i.pravatar.cc/150?u=diana' },
     lastUpdated: '2023-09-30',
     tags: ['users', 'auth', 'security'],
+    lifecycle: 'Deprecated',
   },
   {
     id: 'dp005',
@@ -66,6 +71,7 @@ export const dataProducts: DataProduct[] = [
     owner: { name: 'Bob Williams', avatarUrl: 'https://i.pravatar.cc/150?u=bob' },
     lastUpdated: '2023-11-18',
     tags: ['marketing', 'roi', 'campaign'],
+    lifecycle: 'Production',
   },
   {
     id: 'dp006',
@@ -76,6 +82,7 @@ export const dataProducts: DataProduct[] = [
     owner: { name: 'Eve Adams', avatarUrl: 'https://i.pravatar.cc/150?u=eve' },
     lastUpdated: '2023-11-21',
     tags: ['logs', 'usage', 'raw-data'],
+    lifecycle: 'Development',
   },
 ];
 
@@ -88,8 +95,21 @@ export const getIconForType = (type: DataProduct['type']) => {
     case 'Dashboard':
       return BarChart;
     case 'API':
-      return Api;
+      return GitBranch;
     default:
       return FileText;
   }
 };
+
+export const getIconForLifecycle = (lifecycle: DataProduct['lifecycle']) => {
+    switch (lifecycle) {
+        case 'Development':
+            return ToyBrick;
+        case 'Production':
+            return ShieldCheck;
+        case 'Deprecated':
+            return GitBranch;
+        default:
+            return ToyBrick;
+    }
+}
